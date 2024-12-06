@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Notes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestion des Notes PROGRAMMATION WEB</h1>
+        
+        <div id="file-import" class="section">
+            <h2>Import du Fichier Excel</h2>
+            <input type="file" id="excelFile" accept=".xlsx, .xls">
+            <button onclick="importExcel()">Importer</button>
+        </div>
+
+        <div id="percentages" class="section">
+            <h2>Configuration des Pourcentages</h2>
+            <div class="percentage-inputs">
+                <div>
+                    <label for="td-percent">TD (%):</label>
+                    <input type="number" id="td-percent" min="0" max="100" value="25">
+                </div>
+                <div>
+                    <label for="cc-percent">CC (%):</label>
+                    <input type="number" id="cc-percent" min="0" max="100" value="25">
+                </div>
+                <div>
+                    <label for="tp-percent">TP (%):</label>
+                    <input type="number" id="tp-percent" min="0" max="100" value="25">
+                </div>
+                <div>
+                    <label for="project-percent">Projet (%):</label>
+                    <input type="number" id="project-percent" min="0" max="100" value="25">
+                </div>
+            </div>
+            <p class="note">Note: Le bonus et la présence seront ajoutés directement à la note finale.</p>
+            <button onclick="applyPercentages()">Appliquer les pourcentages</button>
+        </div>
+
+        <div id="grades-table" class="section">
+            <h2>Notes des Étudiants</h2>
+            <div class="export-section">
+                <button onclick="exportToExcel()" class="export-button">Télécharger en Excel</button>
+            </div>
+            <div class="table-container">
+                <table id="studentGrades">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Bonus</th>
+                            <th>TD</th>
+                            <th>CC</th>
+                            <th>TP</th>
+                            <th>Projet</th>
+                            <th>Présence</th>
+                            <th>Note Finale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les données seront insérées ici dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
