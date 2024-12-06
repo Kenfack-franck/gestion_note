@@ -42,13 +42,21 @@
 
         <div id="grades-table" class="section">
             <h2>Notes des Étudiants</h2>
-            <div class="export-section">
-                <button onclick="exportToExcel()" class="export-button">Télécharger en Excel</button>
+            <div class="controls-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Rechercher un étudiant...">
+                    <button onclick="searchStudent()">Rechercher</button>
+                </div>
+                <div class="action-buttons">
+                    <button onclick="saveChanges()" class="save-button">Sauvegarder les modifications</button>
+                    <button onclick="exportToExcel()" class="export-button">Télécharger en Excel</button>
+                </div>
             </div>
             <div class="table-container">
                 <table id="studentGrades">
                     <thead>
                         <tr>
+                            <th>Matricule</th>
                             <th>Nom</th>
                             <th>Bonus</th>
                             <th>TD</th>

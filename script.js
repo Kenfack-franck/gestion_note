@@ -1,4 +1,5 @@
 let studentData = [];
+let originalFile = null; // Pour stocker le fichier Excel original
 
 function importExcel() {
     const fileInput = document.getElementById('excelFile');
@@ -9,6 +10,7 @@ function importExcel() {
         return;
     }
 
+    originalFile = file; // Sauvegarder le fichier original
     const reader = new FileReader();
     reader.onload = function(e) {
         const data = new Uint8Array(e.target.result);
@@ -20,7 +22,7 @@ function importExcel() {
         studentData = XLSX.utils.sheet_to_json(worksheet);
         
         // Vérifier si les colonnes requises existent
-        const requiredColumns = ['nom', 'bonus', 'note_td', 'note_cc', 'note_tp', 'note_projet', 'note_presence'];
+        const requiredColumns = ['matricule', 'nom', 'bonus', 'note_td', 'note_cc', 'note_tp', 'note_projet', 'note_presence'];
         const headers = Object.keys(studentData[0] || {}).map(key => key.toLowerCase());
         
         const missingColumns = requiredColumns.filter(col => !headers.includes(col));
@@ -42,6 +44,7 @@ function displayData() {
     studentData.forEach((student, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
+            <td>${student.matricule || ''}</td>
             <td>${student.nom || ''}</td>
             <td><input type="number" min="0" max="20" value="${student.bonus || 0}" onchange="updateGrade(${index}, 'bonus', this.value)"></td>
             <td><input type="number" min="0" max="20" value="${student.note_td || 0}" onchange="updateGrade(${index}, 'note_td', this.value)"></td>
@@ -111,6 +114,7 @@ function exportToExcel() {
 
     // Créer une copie des données pour l'export
     const dataToExport = studentData.map(student => ({
+        'Matricule': student.matricule,
         'Nom': student.nom,
         'Bonus': student.bonus || 0,
         'Note TD': student.note_td || 0,
@@ -129,4 +133,60 @@ function exportToExcel() {
     // Générer le fichier Excel
     const fileName = 'notes_etudiants_' + new Date().toISOString().slice(0,10) + '.xlsx';
     XLSX.writeFile(wb, fileName);
+}
+
+function searchStudent() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#studentGrades tbody tr');
+    let found = false;
+
+    // Supprimer le surlignage précédent
+    rows.forEach(row => row.classList.remove('highlight'));
+
+    rows.forEach(row => {
+        const matriculeCell = row.cells[0];
+        const nameCell = row.cells[1];
+        const matricule = matriculeCell.textContent.toLowerCase();
+        const name = nameCell.textContent.toLowerCase();
+
+        if (name.includes(searchTerm) || matricule.includes(searchTerm)) {
+            row.classList.add('highlight');
+            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            found = true;
+        }
+    });
+
+    if (!found && searchTerm !== '') {
+        alert('Aucun étudiant trouvé avec ce nom ou matricule.');
+    }
+}
+
+// Ajouter la recherche en appuyant sur Entrée
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            searchStudent();
+        }
+    });
+});
+
+function saveChanges() {
+    if (!originalFile || !studentData || studentData.length === 0) {
+        alert('Aucune donnée à sauvegarder. Veuillez d\'abord importer un fichier Excel.');
+        return;
+    }
+
+    // Créer une nouvelle feuille de calcul avec les données mises à jour
+    const ws = XLSX.utils.json_to_sheet(studentData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Notes");
+
+    // Sauvegarder dans le même fichier
+    try {
+        XLSX.writeFile(wb, originalFile.name);
+        alert('Modifications sauvegardées avec succès !');
+    } catch (error) {
+        alert('Erreur lors de la sauvegarde : ' + error.message);
+    }
 }

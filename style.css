@@ -121,7 +121,7 @@ td input {
 }
 
 .export-button {
-    background-color: #2196F3;
+    background-color: #21f333;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -131,11 +131,104 @@ td input {
 }
 
 .export-button:hover {
-    background-color: #1976D2;
+    background-color: #19d222;
 }
 
 .note {
     color: #666;
     font-style: italic;
     margin: 10px 0;
+}
+
+.controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+.search-box input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 350px;
+    font-size: 14px;
+    height: 40px;
+}
+
+.search-box button,
+.save-button,
+.export-button {
+    height: 40px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.search-box button {
+    background-color: #4CAF50;
+}
+
+.search-box button:hover {
+    background-color: #45a049;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.save-button {
+    background-color: #4ccc41;
+}
+
+.save-button:hover {
+    background-color: #30c22b;
+}
+
+.export-button {
+    background-color: #21f333;
+}
+
+.export-button:hover {
+    background-color: #19d222;
+}
+
+.highlight {
+    background-color: #fff3e0 !important;
+}
+
+.search-and-save {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.save-button {
+    background-color: #4ccc41;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.save-button:hover {
+    background-color: #30c22b;
 }
